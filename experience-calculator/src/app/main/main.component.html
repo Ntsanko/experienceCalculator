@@ -1,0 +1,73 @@
+<mat-tab-group (selectedTabChange)="tabSelectionChanged($event)">
+    <mat-tab label="Calculation History">
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+
+
+                <ng-container matColumnDef="rank">
+                    <th mat-header-cell *matHeaderCellDef> Rank </th>
+                    <td mat-cell *matCellDef="let element"> {{element.mresultingRank}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="from">
+                    <th mat-header-cell *matHeaderCellDef> From Level </th>
+                    <td mat-cell *matCellDef="let element"> {{element.mfromLevel}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="to">
+                    <th mat-header-cell *matHeaderCellDef> To Level </th>
+                    <td mat-cell *matCellDef="let element"> {{element.mtoLevel}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="experience">
+                    <th mat-header-cell *matHeaderCellDef> Experience Needed </th>
+                    <td mat-cell *matCellDef="let element"> {{element.mexperienceNeeded}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div>
+            <form class="text-center border border-light p-5" [formGroup]="downloadForm" (ngSubmit)="download()">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <select class="custom-select d-block w-100 form-control"  name="rank" formControlName="rank" required>
+                            <option value="Inept">Inept</option>
+                            <option value="Unskilled">Unskilled</option>
+                            <option value="Capable">Capable</option>
+                            <option value="Competent">Competent</option>
+                            <option value="Proficient">Proficient</option>
+                            <option value="Adept">Adept</option>
+                            <option value="Master">Master</option>
+                            <option value="Grandmaster">Grandmaster</option>
+                          </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <button type="submit" class="btn btn-success btn-block" [disabled]="!downloadForm.valid">Submit</button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </mat-tab>
+    <mat-tab label="Calculate">
+        <form class="text-center border border-light p-5" [formGroup]="calculateForm" (ngSubmit)="calculate()">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="make">From Level: </label>
+                    <input class="form-control" formControlName="fromLevel" type="number" min="1" max="120" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="manufacturer">To Level: </label>
+                    <input type="number" class="form-control" formControlName="toLevel" min="1" max="120" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-block" [disabled]="!calculateForm.valid">Submit</button>
+        </form>
+    </mat-tab>
+</mat-tab-group>
